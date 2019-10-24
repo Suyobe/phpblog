@@ -1,0 +1,54 @@
+  <div class="l_box">
+    <div class="about_me">
+      <h2>关于我</h2>
+      <ul>
+        <i><img src="<?php echo $ChatHead; ?>"></i>
+        <p><b><?php echo $username; ?>
+        </b>，<?php 
+			if(strlen($introduce)>20){
+				echo mb_substr($introduce,0,20,"UTF-8")."......";
+			}else{
+				echo $introduce;
+			}  
+		?>。</p>
+      </ul>
+    </div>
+    <div class="wdxc">
+      <h2>我的相册</h2>
+      <ul>
+      
+<?php
+    $sqlstr = "select adress from album_tb where uid = '".$_SESSION['username']."'  LIMIT 9";
+		$result = mysqli_query($conn,$sqlstr);
+		while($rows = mysqli_fetch_array($result)){
+			echo '<li><a href="photoAlbum.php"><img src="'.$rows[0].'"></a></li>';
+ 		}
+?>
+      </ul>
+    </div>
+    <div class="tuijian">
+      <h2>我的日记</h2>
+      <ul>
+      <?php
+    	$sqlstr = "select id, title ,Tid from diary_tb where Uid = '".$_SESSION['username']."'";
+			$result = mysqli_query($conn,$sqlstr);
+			while($rows = mysqli_fetch_array($result)){
+				echo '<li><a href="showInfo.php?Tid='.$rows[0].'">'.$rows["title"].'</a></li>';
+			}
+		
+		
+			$sqlstr = "select adress, title ,content ,Stime ,diary_tb.Tid from diary_tb , album_tb where diary_tb.Uid = '".$username."' and
+					 album_tb.Uid = '".$username."' and diary_tb.Tid = album_tb.Tid group by  diary_tb.Tid ";
+			$total = mysqli_query($conn,$sqlstr);
+			$totalNum = mysqli_num_rows($total);
+			$pagecount = ceil($totalNum/6);
+			(!isset($_GET['page']))?($page = 1):$page = $_GET['page'];
+			($page<=$pagecount)?$page:($page = $pagecount);
+			$f_pageNum = 6*($page-1);
+			$sqlstr1 = $sqlstr." limit ".$f_pageNum.",6";
+			$result = mysqli_query($conn,$sqlstr1);
+		?>
+      </ul>
+    </div>
+    
+  </div>

@@ -1,0 +1,119 @@
+<!-- Loading Container -->
+<!--<div class="loading-container">
+    <div class="loader"></div>
+</div>-->
+<!--  /Loading Container -->
+<!-- Navbar -->
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="navbar-container">
+            <div class="navbar-header pull-right">
+                <div class="navbar-account">
+                    <ul class="account-area">
+                    	<?php
+								if(!isset($_SESSION['visitor'])){
+                            ?>
+                        <li>
+                            <a class="login-area dropdown-toggle" data-toggle="dropdown">
+                                <div class="avatar" title="View your public profile">
+                                    <img src="<?php echo $ChatHead; ?>">
+                                </div>
+                                <section style="min-width: 80px;">
+                                    <h2><span class="profile"><span><?php echo $_SESSION['username']; ?></span></span></h2>
+                                </section>
+                            </a>
+                            <!--Login Area Dropdown-->
+                            <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+                                <li class="username"><a><?php echo $_SESSION['username']; ?></a></li>
+                                <!--Avatar Area-->
+                                <li>
+                                    <div class="avatar-area">
+                                        <img src="<?php echo $ChatHead; ?>" class="avatar">
+                                        <span class="caption">个人头像</span>
+                                    </div>
+                                </li>
+                                <!--Avatar Area-->
+                                <li class="dropdown-footer">
+                                    <a href="javascript:;" id="loginout">退出</a>
+                                </li>
+                            </ul>
+                            <!--/Login Area Dropdown-->
+                        </li>
+                        <?php
+						}else{
+                        ?>
+                        
+                        <li>
+							<a href="ajax/toLogin.php" class="login-area dropdown-toggle" >
+                                <section style="min-width: 80px;">
+                                    <h2><span class="profile"><span>登陆</span></span></h2>
+                                </section>
+                            </a>
+                        </li>
+                        
+                        <?php } ?>
+                        <!-- /Account Area -->
+                        <!--Note: notice that setting div must start right after account area list.
+                        no space must be between these elements-->
+                </div>
+            </div>
+            <!-- /Account Area and Settings -->
+        </div>
+    </div>
+</div>
+<!-- /Navbar -->
+<header>
+  <div class="logo"><a href="#"><?php echo $_SESSION['username']; ?>&nbsp;个人博客</a></div>
+    <nav id="nav">
+      <ul>
+      	<?php
+      		if(isset($_SESSION['visitor'])){
+      			echo '<li><a href="index.php">网站首页</a></li>';
+      		}else{
+      			echo '<li><a href="indexEdit.php">网站首页</a></li>';
+      		}
+      	?>
+        
+        <li><a href="photoAlbum.php">我的相册</a></li>
+        <li><a href="aboutMe.php ">关于我</a></li>
+        <li><a href="messageBoard.php ">留言</a></li> 
+      </ul>
+    </nav>
+<script>
+	window.onload = function (){
+		var obj=null;
+		var As=document.getElementById('nav').getElementsByTagName('a');
+		obj = As[0];
+		for(i=1;i<As.length;i++){
+			if(window.location.href.indexOf(As[i].href)>=0)
+				obj=As[i];
+		}
+		obj.id='selected'
+	}
+	
+		
+		$('#loginout').click(function(){
+			console.log(123);
+			var out =  confirm("确定退出吗？");
+			if(out){
+				$.ajax({
+                url:"ajax/loginout.php",
+                success:function (data) {
+                	console.log(data);
+                	if(data==0){
+                		alert("退出失败");
+                	}else{
+                		alert("退出成功");
+										 history.go(0);
+                	}
+                }
+      });
+			}
+      return false;
+		});
+	
+	
+
+	
+</script> 
+</header>

@@ -1,0 +1,78 @@
+create database blogspot_db;
+
+use blogspot_db;
+
+create table User_tb
+(
+	Uid varchar(16) primary key unique,
+	password varchar(20) not null,
+	introduce varchar(2000),	
+	ChatHead varchar(20)	
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+create table diary_tb
+(
+	Uid varchar(16)   not null,
+	Tid varchar(5) not null ,
+	title varchar(100) not null,
+	content varchar(3000) not null,
+	Stime varchar(20) not null,
+	primary key(Uid , Tid),
+	foreign key (Uid) references User_tb(Uid )
+	
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+create table album_tb
+(
+	Uid varchar(16) not null,
+	Tid varchar(5) not null,
+	adress varchar(50) not null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+create table message_tb
+(
+	Uid varchar(16) not null,
+	content varchar(3000) not null,
+	Stime varchar(20) not null,
+	foreign key (Uid) references User_tb(Uid )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+
+
+******************************************************
+
+
+insert into User_tb(Uid ,password,introduce ,ChatHead) values('suyobe','123','苏永彬，一个很帅的男人 ','s');
+select * from User_tb;
+
+drop table album_tb;
+drop table diary_tb;
+drop table album_tb;
+drop table diary_tb;
+
+insert into diary_tb(Uid , Tid , title , content , Stime ) values('liuyifei', '2', '测试213213 ','苏永彬，一个很帅的男人 ','2019-06-05');
+select * from diary_tb;
+select  title ,content , adress ,  diary_tb.Tid from diary_tb , album_tb where diary_tb.Uid = 'liuyifei'  and    album_tb.Uid = 'liuyifei'  and diary_tb.Tid = album_tb.Tid group by  diary_tb.Tid ;
+
+
+
+insert into album_tb(Uid , Tid , adress  ) values('liuyifei','2','img/linfeng.jpg');
+insert into album_tb(Uid , Tid , adress  ) values('suyobe','1','img/huge.jpg');
+select * from album_tb;
+
+
+select adress , title from album_tb ,diary_tb where album_tb.Uid ='suyongbin' and  diary_tb.Tid = album_tb.Tid
+select adress , title from album_tb ,diary_tb where album_tb.Uid = 'suyongbin'   and diary_tb.Uid ='suyongbin' and  diary_tb.Tid = album_tb.Tid;
+select adress from album_tb where ;
+
+
+insert into message_tb(Uid , content  , Stime   ) values('liuyifei',' 在 W3School，你可以找到你所需要的所有的网站建设教程。
+从基础的 HTML 到 CSS，乃至进阶的 XML、SQL、JS、PHP 和 ASP.NET。','2019-06-05');
+insert into message_tb(Uid , content  , Stime   ) values('liuyifei','速度 ','2019-06-05');
+
+
+select * from message_tb where Uid = 'liuyifei';
+
+
+
+
